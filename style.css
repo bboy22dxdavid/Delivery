@@ -1,0 +1,400 @@
+/* importando fontes Google  */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* iniciando as configurações da pagina  */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* ===== paleta de cores  ===== */
+
+:root {
+    --body-color: #E4E9F7;
+    --sidebar-color: #FFF;
+    --primary-color: #695CFE;
+    --primary-color-light: #F6F5FF;
+    --toggle-color: #DDD;
+    --text-color: #707070;
+    /* ====== transições  ====== */
+    --tran-03: all 0.2s ease;
+    --tran-03: all 0.3s ease;
+    --tran-04: all 0.3s ease;
+    --tran-05: all 0.3s ease;
+}
+
+
+/* iniciando as configurações, do corpo  da pagina  */
+
+body {
+    min-height: 100vh;
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+}
+
+
+/* iniciando as configurações, do menu lateral */
+
+::selection {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+
+/* iniciando as configurações, do corpo  da pagina no modo escuro */
+
+
+/* ===== iniciando as configurações, Sidebar ===== */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 250px;
+    padding: 10px 14px;
+    background: var(--sidebar-color);
+    transition: var(--tran-05);
+    z-index: 100;
+}
+
+
+/* ===== iniciando as configurações, Sidebar no modo fechado ===== */
+
+.sidebar.close {
+    width: 88px;
+}
+
+
+/* ===== condigos para serem reutilizados mais de uma vez ===== */
+
+.sidebar li {
+    height: 30px;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    margin-top: 40px;
+}
+
+
+/* =====determinando tamanho padrão do cabecalio ===== */
+
+.sidebar header .image,
+.sidebar .icon {
+    min-width: 60px;
+    border-radius: 6px;
+}
+
+
+/* =====configurando icone do cabecalio ===== */
+
+.sidebar .icon {
+    min-width: 50px;
+    border-radius: 6px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20;
+}
+
+
+/* =====configurando cor e transicao do icone e texto  do cabecalio ===== */
+
+.sidebar .text,
+.sidebar .icon {
+    color: var(--text-color);
+    transition: var(--tran-03);
+}
+
+
+/* ===== padronizando textos do cabecalio ===== */
+
+.sidebar .text {
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+    opacity: 1;
+}
+
+
+/* ===== configurando o textos do cabecalio, para nao ser visivel, quando feixado ===== */
+
+.sidebar.close .text {
+    opacity: 0;
+}
+
+
+/* ==========  configurando o  cabecalio  ================= */
+
+.sidebar header {
+    position: relative;
+}
+
+.sidebar header .image-text {
+    display: flex;
+    align-items: center;
+}
+
+.sidebar header .logo-text {
+    display: flex;
+    flex-direction: column;
+}
+
+header .image-text .name {
+    margin-top: 2px;
+    font-weight: 600;
+    font-family: 'Lobster', cursive;
+    font-size: 35px;
+}
+
+header .image-text .profession {
+    font-size: 16px;
+    margin-top: -2px;
+    display: block;
+}
+
+.sidebar header .image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar header .image img {
+    width: 60px;
+    border-radius: 6px;
+}
+
+.sidebar header .toggle {
+    position: absolute;
+    top: 50%;
+    right: -25px;
+    transform: translateY(-50%) rotate(180deg);
+    height: 25px;
+    width: 25px;
+    background-color: var(--primary-color);
+    color: var(--sidebar-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    cursor: pointer;
+    transition: var(--tran-05);
+}
+
+.sidebar.close .toggle {
+    transform: translateY(-50%) rotate(0deg);
+}
+
+
+/* ========== fim das  configurando o  cabecalio  ================= */
+
+
+/* ========== inicio  das  configurando dos itens do menu  ================= */
+
+.sidebar .menu {
+    margin-top: -10px;
+}
+
+
+/* padronisando os intes do menu nas li a*/
+
+.sidebar li a {
+    list-style: none;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: var(--tran-03);
+}
+
+
+/* padronisando os intes do menu nas li a quando passar o mouse por cima*/
+
+.sidebar li a:hover {
+    background-color: var(--primary-color);
+}
+
+
+/* padronisando os intes do sub-menu */
+
+.sidebar li ul li a .text,
+.sidebar li ul li a .icon {
+    font-size: 15px;
+}
+
+.sidebar li a .bx-chevron-right {
+    position: relative;
+    cursor: pointer;
+    padding-left: 40px;
+}
+
+
+/* padronisando os estilo da fonte do sub-menu */
+
+.sidebar li ul li a .text {
+    font-weight: 300;
+}
+
+
+/*escondendo o sub-menu */
+
+.sidebar li ul li {
+    display: none;
+}
+
+
+/*monstrando o sub-menu quando clica na seta*/
+
+.sidebar li .sub-menu.mostra li {
+    display: block;
+}
+
+
+/* padronisando os intes do sub- menu nas li ul*/
+
+.sidebar li ul {
+    list-style: none;
+    height: 100%;
+    background-color: transparent;
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: var(--tran-03);
+    margin-top: 15px;
+    margin-left: -190px;
+    margin-bottom: 30px;
+}
+
+
+/*colocando a cor quando passar o mouse por cima*/
+
+.sidebar li .sub-menu li :hover {
+    background-color: var(--primary-color);
+    padding: auto;
+}
+
+
+/*posicionando a seta, do sub-menu*/
+
+.sidebar li .seta {
+    padding-left: 70px;
+}
+
+
+/*colocando a cor quando passar o mouse por cima*/
+
+.sidebar li a:hover .icon,
+.sidebar li a:hover .text {
+    color: var(--sidebar-color);
+}
+
+
+/*configurando os itens do menu*/
+
+.sidebar .menu-bar {
+    height: calc(100% - 55px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: scroll;
+}
+
+
+/* indicando que o menu pode rolar para cima e baixo*/
+
+.menu-bar::-webkit-scrollbar {
+    display: none;
+}
+
+
+/* iniciando a configuracao dos modo escuro e claro*/
+
+
+/* iniciando a configuracao do botão de fecha o menu*/
+
+.menu-bar .bottom-content .toggle-switch {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.toggle-switch .switch {
+    position: relative;
+    height: 22px;
+    width: 40px;
+    border-radius: 25px;
+    background-color: var(--toggle-color);
+    transition: var(--tran-05);
+}
+
+.switch::before {
+    content: '';
+    position: absolute;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    top: 50%;
+    left: 5px;
+    transform: translateY(-50%);
+    background-color: var(--sidebar-color);
+    transition: var(--tran-04);
+}
+
+
+/* fim  daa configuracao do botao que fecha o menu*/
+
+
+/* configuracao do no corpo da pagina*/
+
+.home {
+    position: absolute;
+    top: 0;
+    top: 0;
+    left: 250px;
+    height: 100vh;
+    width: calc(100% - 250px);
+    background-color: var(--body-color);
+    transition: var(--tran-05);
+}
+
+
+/* configuracao do texto no corpo da pagina*/
+
+.home .text {
+    font-size: 30px;
+    font-weight: 500;
+    color: var(--text-color);
+    padding: 12px 60px;
+}
+
+
+/* configuracao o corpo da pagina quando o menu for fechado*/
+
+.sidebar.close~.home {
+    left: 78px;
+    height: 100vh;
+    width: calc(100% - 78px);
+}
+
+body.dark .home .text {
+    color: var(--text-color);
+}
