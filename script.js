@@ -13,3 +13,67 @@ $('.seta').click(function() {
     $('.sidebar li .sub-menu').toggleClass('mostra');
     console.log("clicou");
 });
+
+/*===================================================
+             FUNCAO ADD IMAGEM 1
+===================================================*/
+function clickAddImagem1() {
+    $('#imagem1Upload').click()
+        //console.log("imagem 1 selecionada")
+}
+
+//pegando o elemento botão e observando o botao
+$('#imagem1Upload').on("change", function(event) {
+    //variavel que ira receber o elemento da modal
+    const imagem = document.getElementById("imagem1")
+        //src = "imagem/imagem.png"
+
+    //camando função de compactar
+    // compactarImagem(event, imagem, 1)
+
+})
+
+/*===================================================
+             FUNCAO ADD IMAGEM 2
+===================================================*/
+function clickAddImagem2() {
+    $('#imagem2Upload').click()
+        //console.log("imagem 1 selecionada")
+}
+
+
+
+
+//pegando o elemento botão e observando o botao
+$('#imagem2Upload').on("change", function(event) {
+    //variavel que ira receber o elemento da modal
+    const imagem = document.getElementById("imagem2")
+        //src = "imagem/imagem.png"
+
+    //camando função de compactar
+    //compactarImagem(event, imagem, 2)
+
+})
+
+/*===================================================
+            função de inserindo imagem
+===================================================*/
+function inserirImagem(imagem, file) {
+    imagem.file = file
+
+    //iniciando condicao para validar o campo imagem
+    if (file != null) {
+
+        //passa o caminho para ser armazenado
+        const reader = new FileReader()
+
+        reader.onload = (function(img) {
+            return function(e) {
+                img.src = e.target.result
+            }
+        })(imagem)
+
+        //recuperando os dados 
+        reader.readAsDataURL(file)
+    }
+}

@@ -74,7 +74,7 @@ body {
 /* ===== condigos para serem reutilizados mais de uma vez ===== */
 
 .sidebar li {
-    height: 30px;
+    height: 50px;
     list-style: none;
     display: flex;
     align-items: center;
