@@ -165,9 +165,34 @@
                 </div>
                 <br>
                 <button type="submit" class="btn btn-success  btn-block" onclick="validarInformativo()">Alterar Informativo</button>
+                <!------------------ abrindo modal ----------------------------->
+
+                <!--<button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalAlert"> abrir modal</button>-->
+            </div>
+
+        </div>
+
+    </section>
+
+    <!------------------  div modal  alerta ----------------------------->
+
+    <div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">Alerta</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <label id="alertaMenssagem"> Error ao tentar abrir</label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                </div>
             </div>
         </div>
-    </section>
+    </div>
+
     <!--====== Script para colocar a alteração clicando na imagem =======-->
     <script>
         $(document).ready(function() {
@@ -179,6 +204,11 @@
             $("#imagem2Upload").hide()
 
         })
+
+        function abrirModal() {
+            $("#modalAlert").modal()
+                //console.log("clicou para abrir o modal");
+        }
     </script>
     <!--====== Script da pagina =======-->
     <script src="script.js "></script>
