@@ -1,3 +1,7 @@
+/*===================================================
+             CONFIGURAÇÕES DO MENU 
+===================================================*/
+
 const body = document.querySelector('body'),
     sidebar = body.querySelector('nav'),
     toggle = body.querySelector(".toggle"),
@@ -13,6 +17,18 @@ $('.seta').click(function() {
     $('.sidebar li .sub-menu').toggleClass('mostra');
     console.log("clicou");
 });
+
+
+/*===================================================
+        INICIANDO CONEXÃO COM BANCO 
+===================================================*/
+let db = firebase.firestore().collection("app").doc("homeApp");
+let storage = firebase.storage().ref().child("app/homeApp")
+
+//variavel para receber a imagem selecionada
+let imagemSelecionada1;
+let imagemSelecionada2;
+let informativoDB;
 
 /*===================================================
              FUNCAO ADD IMAGEM 1
