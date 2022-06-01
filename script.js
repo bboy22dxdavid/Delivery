@@ -433,5 +433,4 @@ function abrirModalAlerta(mensagem) {
     //exibindo a mensagem em forma da alerta
     $("#modalAlert").modal()
     document.getElementById("alertaMenssagem").innerText = mensagem
-
 }
