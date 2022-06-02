@@ -17,3 +17,13 @@ $('.seta').click(function() {
     $('.sidebar li .sub-menu').toggleClass('mostra');
     //console.log("clicou");
 });
+
+/*========================= funções do modal =========================*/
+
+
+// funçãoabrir modal 
+function abrirModal() {
+
+    $('#modalAdicionar').modal("show")
+
+}
