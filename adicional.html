@@ -356,12 +356,27 @@
                 </div>
             </div>
         </div>
-        <button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalAdicionar"> abrir modal</button>
+        <!--<button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalAdicionar"> abrir modal</button>-->
 
 
     </section>
     <!--====== Script da pagina =======-->
     <script src="scripts/adicionais.js "></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            })
+
+            //escondendo botão de inserir imagem
+            $('#imagemUploadAdicionar').hide()
+
+            //escondendo botão de alterar imagem
+            $('#alterImagemUpload').hide()
+
+        })
+    </script>
 </body>
 
 </html>
