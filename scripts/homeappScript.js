@@ -408,7 +408,7 @@ function salvarInfoBanco(informativo) {
 function abrirProgressBar() {
     //mostrando icone de carregamento 
     $("#modalProgresse").modal("show")
-    console.log("abrindo progressBar sendo chamada")
+        // console.log("abrindo progressBar sendo chamada")
 }
 
 /*================================
@@ -417,7 +417,7 @@ function abrirProgressBar() {
 function removerProgressBar() {
     //mostrando icone de carregamento 
     $("#modalProgresse").modal("hide")
-    console.log("feichando progressBar sendo chamada")
+        //console.log("feichando progressBar sendo chamada")
 
     //erro nesta função
     /*window.setTimeout(function() {
