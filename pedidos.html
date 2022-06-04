@@ -157,7 +157,7 @@
         </div>
 
         <!------------------  pesquisa  ----------------------------->
-        <div style="margin: 0 auto; float: right;">
+        <div style="margin: 0 auto; float: right; padding-right: 10px;">
 
             <input type="text" id="pesquisar0" onkeyup="pesquisar(0)" placeholder="Pesquisar Por cliente...">
             <select name="state" id="maxRows" style="height: 30; margin-right: 15;">
@@ -373,6 +373,15 @@
 
     <!--====== Script da pagina =======-->
     <script src="scripts/pedidos.js "></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            })
+
+        })
+    </script>
 </body>
 
 </html>

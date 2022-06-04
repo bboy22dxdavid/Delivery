@@ -50,8 +50,8 @@ let pedidoSelecionadoFinalizar;
 
 
 
-//RERALIZANDO UMA CONSULTA COM QUERY 
-db.where("status", "==", "em andamento").onSnapshot(function(documentos) {
+//RERALIZANDO UMA CONSULTA COM QUERY  .where("status", "==", 1)
+db.where("status", "==", 1).onSnapshot(function(documentos) {
 
     //iniciando condição para percorrer os documentos da coleção 
     documentos.docChanges().forEach(function(changes) {
@@ -63,6 +63,7 @@ db.where("status", "==", "em andamento").onSnapshot(function(documentos) {
             const dados = doc.data()
 
             keyLista.push(dados.pedido_id)
+            console.log(doc.pagamento);
 
 
             criarItensTabela(dados)
@@ -89,7 +90,7 @@ db.where("status", "==", "em andamento").onSnapshot(function(documentos) {
 /*========================= adicionando itnes na tabela =========================*/
 
 /*===================================================
-        função Adicioanr campos na Tabela
+        função Adicioanr campos na Tabela 
 ===================================================*/
 //inserindo itens na tabela 
 function criarItensTabela(dados) {
@@ -101,16 +102,16 @@ function criarItensTabela(dados) {
     const colunaPedidoHora = linha.insertCell(2)
 
 
-    const dados_pedidos = dados.pedido_dados.substr(0, 20) + "..."
+    //const dados_pedidos = dados.pedido_dados.substr(0, 20) + "..."
 
 
-    const itemClienteNome = document.createTextNode(dados.cliente_nome)
-    const itemPedidoDados = document.createTextNode(dados_pedidos.replace(/<br>/g, ""))
-    const itemPedidodata = document.createTextNode(dados.pedido_data)
+    const itemClienteNome = document.createTextNode(dados.status)
+        //const itemPedidoDados = document.createTextNode(dados_pedidos.replace(/<br>/g, ""))
+    const itemPedidodata = document.createTextNode(dados.pagamento)
 
 
     colunaClienteNome.appendChild(itemClienteNome)
-    colunaPedidoNome.appendChild(itemPedidoDados)
+        //colunaPedidoNome.appendChild(itemPedidoDados)
     colunaPedidoHora.appendChild(itemPedidodata)
     criarButtonTabela(linha, dados)
     ordemarItens()
@@ -217,13 +218,13 @@ function clickDetalhePedido(dados) {
     $("#modalPedido").modal("show")
 
     //variaveis da modal
-    const desconto = document.getElementById("desconto")
-    const pedido_dados = document.getElementById("idCliente")
+    const idCliente = document.getElementById("idCliente")
+    const pedido_dados = document.getElementById("desconto")
     const pedido_pagametno = document.getElementById("pagamento")
     const pedido_data = document.getElementById("status")
 
-    desconto.innerHTML = dados.desconto
-    pedido_dados.innerHTML = dados.idCliente
+    idCliente.innerHTML = dados.idCliente
+    pedido_dados.innerHTML = dados.desconto
     pedido_pagametno.innerHTML = dados.pagamento
     pedido_data.innerHTML = dados.status
 
