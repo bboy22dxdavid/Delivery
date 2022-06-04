@@ -23,6 +23,15 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
 
+    <!------------------  biblioteca do fire base  ----------------------------->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <!--------------------  compactar imagem ------------------------->
+    <script src="https://compressjs.herokuapp.com/compress.js"></script>
     <!----======== TITULO DA PAGINA ======== -->
     <title>Painel Web</title>
 </head>
@@ -133,8 +142,290 @@
         </div>
     </nav>
 
+    <!------------------  body da pagina parte superior ----------------------------->
+    <section class="home">
+        <div class="navbar navbar-expand-lg navbar-light ">
+            <div class="wrap" style="margin: 0 auto; float: center;">
+                <!------------------  div modal  cabecalio ----------------------------->
+                <div class=" mx-auto d-block" style="width: 280;">
+                    <h4 class="text fonteGoogleLobster" style="color: #11101D;">Adicionar Produtos</h4>
+                </div>
+            </div>
+        </div>
+
+        <!------------------  carde da pagina  ----------------------------->
+        <div class="card-body">
+            <!------------------  botao  ----------------------------->
+            <button type="button" style="background-color: #695CFE;" class="btn btn-primary mb-1" onclick="abrirModal()">
+                <i class="fas fa-plus" ></i>
+                Add Categoria 
+            </button>
+        </div>
+        <!------------------  pesquisa  ----------------------------->
+        <div style="margin: 0 auto; float: right;">
+            <input type="text" id="pesquisar0" onkeyup="pesquisar(0)" placeholder="Pesquisar ID...">
+            <input type="text" id="pesquisar1" onkeyup="pesquisar(1)" placeholder="Pesquisar Nome...">
+            <select name="state" id="maxRows" style="height: 30; margin-right: 15;">
+                <option value="100">Mostrar Todos</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+            <br>
+            <br>
+
+        </div>
+        <!------------------  tabela  ----------------------------->
+        <div class="table-responsive col-md-12">
+            <table class="table table-striped table-bordered" id="tabelaProduto" cellspacing="0" callpadding="0">
+                <!------------------ cabecalio da tabela  ----------------------------->
+                <thead>
+                    <!------------------ quantidade de linhas da tabela  ----------------------------->
+                    <tr>
+                        <!------------------ quantidade de colunhas da tabela  ----------------------------->
+                        <th class="th-sm" onclick="ordenarId()"> ID <i style="float: right;" class="fas fa-sort"></i></th>
+                        <th class="th-sm" onclick="ordenarNome()"> Nome<i style="float: right;" class="fas fa-sort"></i></th>
+                        <th class="th-sm"> Valor</th>
+                        <th class="th-sm"> Ações</th>
+                    </tr>
+                </thead>
+                <!------------------ corpo da tabela  ----------------------------->
+
+                <tbody>
+                    <!------------------ conteudo  da tabela  ----------------------------->
+
+                </tbody>
+            </table>
+            <!------------------ navegação  da tabela  ----------------------------->
+            <div class="pagination">
+                <nav>
+                    <ul class="pagination" id="paginacao"></ul>
+                </nav>
+            </div>
+        </div>
+
+        <!------------------  div modal  adicionar ----------------------------->
+        <div class="modal fade" style=" overflow-y:scroll " id="modalAdicionar" data-backdrop="static" tabindex="-1" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!------------------  div modal  cabecalio ----------------------------->
+                    <div class="modal-header" style="padding: 35px 50px;">
+                        <h4 style="color: #11101D;">Adicionar Produto</h4>
+                    </div>
+                    <!------------------  div modal  corpo  ----------------------------->
+                    <div class="modal-body" style="padding: 40px 50px">
+                        <!------------------  div modal  formulario ----------------------------->
+                        <div class="form-group">
+                            <label for="adicionarID"> ID: </label>
+                            <input type="text" id="adicionarID" class="form-control"></input>
+                        </div>
+                        <div class="form-group">
+                            <label for="adicionarNome"> Nome: </label>
+                            <input type="text" class="form-control" id="adicionarNome" />
+                        </div>
+                        <div class="form-group">
+                            <label for="adicionarValor"> Valor: </label>
+                            <input type="number" class="form-control" id="adicionarValor" />
+                        </div>
+                        <div class="form-group">
+                            <label for="adicionarDropdown"> Categoria: </label>
+                            <br>
+                            <select style="width:280px" id="adicionarDropdown"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="adicionarDescricao"> Descrição Produto: </label>
+                            <br>
+                            <textarea style="max-width: 100%;" cols="33" rows="3" id="adicionarDescricao"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="adicionarAdicional"> Possui Adicional: </label>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="nameAdicionarRadio" id="adicionarRadioNao" checked>
+                                <label for="form-check-label"> Não Possui Adicional</label>
+
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" class="form-check-input" name="nameAdicionarRadio" id="adicionarRadioSim">
+                                <label for="form-check-label"> Sim Possui Adicional</label>
+
+                            </div>
+                        </div>
+                        <label>
+                            <span>Imagem: </span><br>
+                            <input type="file" class="upload-group" id="imagemUploadAdicionar" />
+                        </label>
+                        <br>
+                        <img class="razer" id="imagemAdicionar" width="100" height="100" onclick="clickAddImagem()">
+                        <br><br>
+                        <!------------------  div modal  botao ----------------------------->
+                        <button type="button" class="btn btn-success btn btn-block" onclick="buttonAdicionarCampos()">
+                            Salvar
+                        </button>
+
+                    </div>
+                    <!------------------  div modal  rodaper ----------------------------->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="limparCamposAdd()">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------  div modal  alterar ----------------------------->
+        <div>
+            <div class="modal fade" style=" overflow-y:scroll " id="modalAlterar" data-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!------------------ modal  cabecalio  ----------------------------->
+                        <div class="modal-header" style="padding: 35px 50px;">
+                            <h4 style="color: #11101D;">Alterar Produto</h4>
+                        </div>
+                        <!------------------ modal  corpo  ----------------------------->
+                        <div class="modal-body" style="padding: 40px 50px">
+                            <div class="form-group">
+                                <label for="alterID"> ID: </label>
+                                <label type="text" id="AlterID">1233</label>
+                            </div>
+                            <!------------------ modal  formulario ----------------------------->
+                            <div class="form-group">
+                                <label for="alterNome"> Nome: </label>
+                                <input type="text" class="form-control" id="alterNome" />
+                            </div>
+                            <div class="form-group">
+                                <label for="altererValor"> Valor: </label>
+                                <input type="number" class="form-control" id="altererValor" />
+                            </div>
+                            <div class="form-group">
+                                <label for="alterarDropdown"> Categoria: </label>
+                                <br>
+                                <select style="width:280px" id="alterarDropdown"></select>
+                            </div>
+                            <div class="form-group">
+                                <label for="alterarDescricao"> Descrição Produto: </label>
+                                <br>
+                                <textarea style="max-width: 100%;" cols="33" rows="3" id="alterarDescricao"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="alterarAdicional"> Possui Adicional: </label>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" name="nameAlterarRadio" id="alterarRadioNao" checked>
+                                    <label for="form-check-label"> Não Possui Adicional</label>
+
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" class="form-check-input" name="nameAlterarRadio" id="alterarRadioSim">
+                                    <label for="form-check-label"> Sim Possui Adicional</label>
+
+                                </div>
+                            </div>
+                            <label>
+                            <span>Imagem: </span><br>
+                            <input type="file" class="upload-group" id="alterImagemUpload" />
+                        </label>
+                            <br>
+                            <img class="razer" id="alterImagem" width="100" height="100" onclick="clickAlterImage()">
+                            <br><br>
+                            <!------------------ modal butao ----------------------------->
+                            <button type="button" class="btn btn-success btn btn-block" onclick="buttonAlterCampos()">
+                            Alterar
+                        </button>
+
+                        </div>
+                        <!------------------ modal  rodaper  ----------------------------->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" onclick="limparCamposAlterar()">
+                            Cancelar
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------  div modal  remover ----------------------------->
+        <div>
+            <div class="modal fade" style=" overflow-y:scroll " id="modalRemover" data-backdrop="static" tabindex="-1" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!------------------ modal  cabecalio  ----------------------------->
+                        <div class="modal-header" style="padding: 35px 50px;">
+                            <h4 style="color: #11101D;">Remover Produto</h4>
+                        </div>
+                        <!------------------ modal  corpo  ----------------------------->
+                        <div class="modal-body" style="padding: 40px 50px">
+                            Desesa realmente remover este Item?
+                        </div>
+                        <!------------------ modal  rodaper  ----------------------------->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="RemoverProduto()">
+                            Sim
+                        </button>
+
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                            Cancelar
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------  div modal  alerta ----------------------------->
+        <div class="modal fade" id="modalAlert" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Alerta</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label id="alertaMenssagem"> Error ao tentar abrir</label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------  div modal  de modalProgresse ----------------------------->
+        <div>
+            <div class="modal fade" id="modalProgresse" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-center" style="top: 50%; transform: translateY(-50%);">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" style="color: #11101D; width: 3rem; height: 3rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                    <div>
+                        <span class="visually-hidden " style="margin-left: 200px; margin-top: 40px;">caregando...</span>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--<button type="button" class="btn btn-primary btn-lg" data-bs-toggle="modal" data-bs-target="#modalAlert"> abrir modal</button>-->
+
+
+    </section>
+
     <!--====== Script da pagina =======-->
-    <script src="scripts/categoria.js "></script>
+    <script src="scripts/produto.js "></script>
+
+    <script>
+        $(document).ready(function() {
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').toggleClass('active');
+            })
+
+            //escondendo botão de inserir imagem
+            $('#imagemUploadAdicionar').hide()
+
+            //escondendo botão de alterar imagem
+            $('#alterImagemUpload').hide()
+        })
+    </script>
 </body>
 
 </html>
