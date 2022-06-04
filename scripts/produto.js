@@ -383,7 +383,7 @@ function salvarImagemdb(id, nome, valor, cantegoria_id, descricao, possui_adicio
              função add imagem no modal
 ===================================================*/
 function clickAddImagem() {
-    $('#imagemUploadAdicionar').click("show")
+    $('#imagemUploadAdicionar').click()
 }
 
 //pegando o elemento botão e observando o botao
@@ -403,7 +403,7 @@ $('#imagemUploadAdicionar').on("change", function(event) {
 ===================================================*/
 // função alterar imagem no modal
 function clickAlterImage() {
-    $('#alterImagemUpload').click("show")
+    $('#alterImagemUpload').click()
 
 }
 
