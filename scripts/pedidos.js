@@ -63,7 +63,9 @@ db.where("status", "==", 1).onSnapshot(function(documentos) {
             const dados = doc.data()
 
             keyLista.push(dados.pedido_id)
-            console.log(doc.pagamento);
+                //console.log(dados);
+            console.log(dados.produtos['0']['produto']['nome']);
+
 
 
             criarItensTabela(dados)
@@ -105,13 +107,13 @@ function criarItensTabela(dados) {
     //const dados_pedidos = dados.pedido_dados.substr(0, 20) + "..."
 
 
-    const itemClienteNome = document.createTextNode(dados.status)
-        //const itemPedidoDados = document.createTextNode(dados_pedidos.replace(/<br>/g, ""))
+    const itemClienteNome = document.createTextNode(dados.produtos['0']['produto']['nome'])
+    const itemPedidoDados = document.createTextNode(dados.produtos['0']['produto']['nome'].replace(/<br>/g, ""))
     const itemPedidodata = document.createTextNode(dados.pagamento)
 
 
     colunaClienteNome.appendChild(itemClienteNome)
-        //colunaPedidoNome.appendChild(itemPedidoDados)
+    colunaPedidoNome.appendChild(itemPedidoDados)
     colunaPedidoHora.appendChild(itemPedidodata)
     criarButtonTabela(linha, dados)
     ordemarItens()
