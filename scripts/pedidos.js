@@ -62,9 +62,19 @@ db.where("status", "==", 1).onSnapshot(function(documentos) {
             const doc = changes.doc
             const dados = doc.data()
 
-            keyLista.push(dados.pedido_id)
-                //console.log(dados);
-            console.log(dados.produtos['0']['produto']['nome']);
+
+
+            keyLista.push(dados)
+
+            //recuperando o uid do pedido
+
+            console.log(bj);
+
+            dados.data = new Date()
+
+            //console.log(dados.data.toISOString());
+
+            // console.log("dada e hora " + dados.data.toLocaleString());
 
 
 
@@ -104,12 +114,12 @@ function criarItensTabela(dados) {
     const colunaPedidoHora = linha.insertCell(2)
 
 
-    //const dados_pedidos = dados.pedido_dados.substr(0, 20) + "..."
+    const dados_pedidos = dados.produtos['0']['produto']['nome'].substr(0, 20) + "..."
 
 
-    const itemClienteNome = document.createTextNode(dados.produtos['0']['produto']['nome'])
-    const itemPedidoDados = document.createTextNode(dados.produtos['0']['produto']['nome'].replace(/<br>/g, ""))
-    const itemPedidodata = document.createTextNode(dados.pagamento)
+    const itemClienteNome = document.createTextNode(dados.cliente)
+    const itemPedidoDados = document.createTextNode(dados_pedidos.replace(/<br>/g, ""))
+    const itemPedidodata = document.createTextNode(dados.data.toLocaleString())
 
 
     colunaClienteNome.appendChild(itemClienteNome)
@@ -226,9 +236,9 @@ function clickDetalhePedido(dados) {
     const pedido_data = document.getElementById("status")
 
     idCliente.innerHTML = dados.idCliente
-    pedido_dados.innerHTML = dados.desconto
+    pedido_dados.innerHTML = dados.produtos['0']['produto']['nome']
     pedido_pagametno.innerHTML = dados.pagamento
-    pedido_data.innerHTML = dados.status
+    pedido_data.innerHTML = dados.data.toLocaleString()
 
 }
 
@@ -247,9 +257,9 @@ function clickDetalheCliente(dados) {
     const endereco = document.getElementById("clienteEndereco")
     const contato = document.getElementById("clienteEContato")
 
-    nome.innerHTML = dados.cliente_nome
-    endereco.innerHTML = dados.cliente_endereco
-    contato.innerHTML = dados.cliente_contato
+    nome.innerHTML = dados.cliente
+    endereco.innerHTML = dados.endereco
+    contato.innerHTML = dados.telefone
 
 
     pedidoSelecionadoCliente = dados
@@ -270,13 +280,14 @@ function clickImprimir(dados) {
     doc.setFontStyle("bold")
     doc.setFontSize(11)
 
-    doc.text("Pedido Nº: " + dados.pedido_id, 20, 5)
-    doc.text("Data e Hora Pedido: \n " + dados.pedido_data, 20, 20)
-    doc.text("\nCliente: \n " + dados.cliente_nome, 20, 30)
-    doc.text("Forma de Pagamento: \n " + dados.pedido_forma_pg, 20, 50)
-    doc.text("\nValor Total: \n " + dados.pedido_valor, 20, 60)
-    doc.text("Pedido \n " + dados.pedido_dados.replace(/<br>/g, "\n"), 20, 80)
-    doc.text("\n Endereço do Cliente: \n " + dados.cliente_endereco, 20, 95)
+    //doc.text("Pedido Nº: " + dados.appId, 20, 5)
+    doc.text("Data e Hora Pedido:  " + dados.data.toLocaleString(), 20, 20)
+    doc.text("\nCliente:  " + dados.cliente, 20, 25)
+    doc.text("Forma de Pagamento:  " + dados.pagamento, 20, 40)
+    doc.text("\nValor Total:  " + dados.total, 20, 55)
+    doc.text("Pedido: " + dados.produtos['0']['produto']['nome'].replace(/<br>/g, "\n"), 20, 70)
+    doc.text("\n Endereço do Cliente:  " + dados.endereco, 20, 80)
+    doc.text("\n telefone:  " + dados.telefone, 20, 100)
 
 
     //imprimindo os dados
@@ -311,7 +322,7 @@ function clickFinalizar(dados) {
 function finalizarPedido() {
     //vaiavel que recebera o obj do pedido
     const dados = {
-        pedido_status: "finalizado"
+        status: "4"
     }
 
     //pegando o caminho do banco de dados
