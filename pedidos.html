@@ -191,6 +191,7 @@
                         <th class="th-sm"> Inf-Pedido</th>
                         <th class="th-sm"> Inf-Cliente</th>
                         <th class="th-sm"> Imprimir</th>
+                        <th class="th-sm"> Status</th>
                         <th class="th-sm"> Finalizados</th>
                     </tr>
                 </thead>
@@ -312,7 +313,35 @@
 
         <!------------------  div modal  finalizar pedido ----------------------------->
         <div>
-            <div class="modal fade " style=" overflow-y:scroll " id="modalFinalizar " data-backdrop="static " tabindex="-1 " role="dialog ">
+            <div class="modal fade " style=" overflow-y:scroll " id="modalAtualizar" data-backdrop="static " tabindex="-1 " role="dialog ">
+                <div class="modal-dialog ">
+                    <div class="modal-content ">
+                        <!------------------ modal  cabecalio  ----------------------------->
+                        <div class="modal-header " style="padding: 35px 50px; ">
+                            <h4 style="color: #11101D; ">Status do Pedido</h4>
+                        </div>
+                        <!------------------ modal  corpo  ----------------------------->
+                        <div class="modal-body " style="padding: 40px 50px ">
+                            Desesa Alterar Status do Pedido?
+                        </div>
+                        <!------------------ modal  rodaper  ----------------------------->
+                        <div class="modal-footer ">
+                            <button type="button " class="btn btn-primary " onclick="atualizarPedido() "> 
+                                Sim
+                            </button>
+
+                            <button type="button " class="btn btn-danger " data-bs-dismiss="modal"> 
+                                Cancelar
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!------------------  div modal  finalizar pedido ----------------------------->
+        <div>
+            <div class="modal fade " style=" overflow-y:scroll " id="modalFinalizar" data-backdrop="static " tabindex="-1 " role="dialog ">
                 <div class="modal-dialog ">
                     <div class="modal-content ">
                         <!------------------ modal  cabecalio  ----------------------------->
@@ -329,7 +358,7 @@
                                 Sim
                             </button>
 
-                            <button type="button " class="btn btn-danger " data-bs-dismiss="modal "> 
+                            <button type="button " class="btn btn-danger " data-bs-dismiss="modal"> 
                                 Cancelar
                         </button>
                         </div>
@@ -339,24 +368,24 @@
         </div>
 
         <!------------------  div modal  alerta ----------------------------->
-        <div class="modal fade " id="modalAlert " tabindex="-1 " role="dialog " aria-labelledby="myModalLabel ">
+        <div class="modal fade " id="modalAlert" tabindex="-1 " role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog " role="document ">
                 <div class="modal-content ">
                     <div class="modal-header ">
-                        <h4 class="modal-title " id="myModalLabel ">Alerta</h4>
-                        <button type="button " class="btn-close " data-bs-dismiss="modal " aria-label="Close "></button>
+                        <h4 class="modal-title " id="myModalLabel">Alerta</h4>
+                        <button type="button " class="btn-close " data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body ">
-                        <label id="alertaMenssagem "> Error ao tentar abrir</label>
+                        <label id="alertaMenssagem"> Error ao tentar abrir</label>
                     </div>
                     <div class="modal-footer ">
-                        <button type="button " class="btn btn-danger " data-bs-dismiss="modal ">Fechar</button>
+                        <button type="button " class="btn btn-danger " data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!------------------  div modal  de modalProgresse ----------------------------->
+        <!------------------  div modal  de modalProgresse  ----------------------------->
         <div>
             <div class="modal fade " id="modalProgresse " tabindex="-1 " role="dialog ">
                 <div class="modal-dialog modal-center " style="top: 50%; transform: translateY(-50%); ">
@@ -372,21 +401,13 @@
                 </div>
             </div>
         </div>
-        <!--<button type="button " class="btn btn-primary btn-lg " data-bs-toggle="modal " data-bs-target="#modalPedido"> abrir modal</button>-->
+        <!--<button type="button " class="btn btn-primary btn-lg " data-bs-toggle="modal " data-bs-target="#modalCliente"> abrir modal</button>-->
+
 
     </section>
-
     <!--====== Script da pagina =======-->
     <script src="scripts/pedidos.js "></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#sidebarCollapse').on('click', function() {
-                $('#sidebar').toggleClass('active');
-            })
-
-        })
-    </script>
 </body>
 
 </html>

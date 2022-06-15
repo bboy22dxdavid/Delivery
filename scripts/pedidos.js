@@ -43,15 +43,18 @@ let tabela = document.getElementById("tabelaPedido").getElementsByTagName("tbody
 //inicializando o banco de dados firebase
 var db = firebase.firestore().collection("pedidos");
 
+
+
 //variavel global
 let keyLista = []
 let pedidoSelecionadoCliente;
 let pedidoSelecionadoFinalizar;
+let statusPedido;
 
 
 
 //RERALIZANDO UMA CONSULTA COM QUERY  .where("status", "==", 1)
-db.where("status", "==", 1).onSnapshot(function(documentos) {
+db.where("status", "<=", 3).onSnapshot(function(documentos) {
 
     //iniciando condição para percorrer os documentos da coleção 
     documentos.docChanges().forEach(function(changes) {
@@ -62,13 +65,15 @@ db.where("status", "==", 1).onSnapshot(function(documentos) {
             const doc = changes.doc
             const dados = doc.data()
 
+            pedidoSelecionadoFinalizar = changes.doc.id
+            statusPedido = dados.status
 
+            keyLista.push(pedidoSelecionadoFinalizar)
 
-            keyLista.push(dados)
+            console.log(statusPedido);
 
             //recuperando o uid do pedido
-
-            console.log(bj);
+            //console.log(pedidoSelecionadoFinalizar);
 
             dados.data = new Date()
 
@@ -142,7 +147,7 @@ function criarItensTabela(dados) {
 function removeItensTabela(dados) {
 
     //pegando a posição do item
-    const index = keyLista.indexOf(dados.pedido_id)
+    const index = keyLista.indexOf(pedidoSelecionadoFinalizar)
 
     //removendo a linha da tabela
     tabela.rows[index].remove()
@@ -163,7 +168,8 @@ function criarButtonTabela(linha, dados) {
     const colunaPedidoInf = linha.insertCell(3)
     const colunaClienteInf = linha.insertCell(4)
     const colunaPedidoImprimir = linha.insertCell(5)
-    const colunaPedidoFinalizar = linha.insertCell(6)
+    const colunaAtualizar = linha.insertCell(6)
+    const colunaPedidoFinalizar = linha.insertCell(7)
 
     //inserindo botoes
     const buttondetalhePedido = document.createElement("button")
@@ -177,6 +183,10 @@ function criarButtonTabela(linha, dados) {
     const buttonIprimir = document.createElement("button")
     buttonIprimir.innerHTML = `<span class="material-symbols-outlined">print</span>`
     buttonIprimir.className = "btn btn-success btn-xs"
+
+    const buttonAtualizar = document.createElement("button")
+    buttonAtualizar.innerHTML = `<span class="material-symbols-outlined">sync_alt</span>`
+    buttonAtualizar.className = "btn btn-success btn-xs"
 
     const buttonFinalizar = document.createElement("button")
     buttonFinalizar.innerHTML = `<span class="material-symbols-outlined">task_alt</span>`
@@ -202,8 +212,15 @@ function criarButtonTabela(linha, dados) {
         return false
     }
 
+    buttonAtualizar.onclick = function() {
+        //debugandoconsole.log(" primeira ação do btn")
+
+        clickAtualizar(dados)
+        return false
+    }
+
     buttonFinalizar.onclick = function() {
-        //debugando console.log(" buttonFinalizar")
+        //debugandoconsole.log(" primeira ação do btn")
 
         clickFinalizar(dados)
         return false
@@ -212,6 +229,7 @@ function criarButtonTabela(linha, dados) {
     colunaPedidoInf.appendChild(buttondetalhePedido)
     colunaClienteInf.appendChild(buttonDetalheCliente)
     colunaPedidoImprimir.appendChild(buttonIprimir)
+    colunaAtualizar.appendChild(buttonAtualizar)
     colunaPedidoFinalizar.appendChild(buttonFinalizar)
 
 }
@@ -303,13 +321,14 @@ function clickImprimir(dados) {
 /*====================================================== 
         EVENTO DO BOTÃO DE FINALIZAR PEDIDO
 ====================================================== */
-function clickFinalizar(dados) {
+function clickFinalizar() {
     //CHAMANDO A MODAL  
     $("#modalFinalizar").modal("show")
+        //console.log("clique para finalizar" + dados.status)
 
-    pedidoSelecionadoFinalizar = dados
 
-
+    pedidoSelecionadoFinalizar
+    //console.log("clickFinalizar" + pedidoSelecionadoFinalizar)
 }
 
 
@@ -320,23 +339,92 @@ function clickFinalizar(dados) {
         EVENTO DO BOTÃO "SIM" FINALIZAR PEDIDO
 ====================================================== */
 function finalizarPedido() {
-    //vaiavel que recebera o obj do pedido
-    const dados = {
-        status: "4"
+
+    //console.log("finalizarPedido" + status)
+    const dado = {
+        status: 4
     }
 
     //pegando o caminho do banco de dados
-    firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar.pedido_id).update(dados).then(function() {
+    firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar).update(dado).then(function() {
+
         //ESCONDENDO A MODAL  
         $("#modalFinalizar").modal("hide")
-        abrirModalAlerta("Sucesso ao Finalizar Pedido")
+        abrirModalAlerta("Pedido Finalizado com Sucesso!")
+            //console.log("Pedido Alterado para Transporte")
 
     }).catch(function(error) {
         abrirModalAlerta("Error ao Finalizar Pedido" + error)
+            //console.log("Sucesso ao Finalizar Pedido erro" + error)
 
     })
+}
 
 
+/*====================================================== 
+        EVENTO DO BOTÃO DE FINALIZAR PEDIDO
+====================================================== */
+function clickAtualizar() {
+    //CHAMANDO A MODAL  
+    $("#modalAtualizar").modal("show")
+        //console.log("clique para finalizar" + dados.status)
+
+
+    pedidoSelecionadoFinalizar
+    //console.log("clickFinalizar" + pedidoSelecionadoFinalizar)
+}
+
+
+/*====================================================== 
+        EVENTO DO BOTÃO "SIM" FINALIZAR PEDIDO
+====================================================== */
+function atualizarPedido() {
+
+    //vaiavel que recebera o obj do pedido
+    var status = statusPedido
+        //console.log("finalizarPedido" + status)
+    if (status === 1) {
+        const dado = {
+            status: 2
+        }
+
+        //pegando o caminho do banco de dados
+        firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar).update(dado).then(function() {
+
+            //fechando modal
+            $("#modalAtualizar").modal("hide")
+            abrirModalAlerta("Pedido Alterado para Transporte!")
+                //console.log("Pedido Alterado para Transporte")
+
+
+        }).catch(function(error) {
+            abrirModalAlerta("Error ao Finalizar Pedido" + error)
+                //console.log("Sucesso ao Finalizar Pedido erro" + error)
+        })
+
+    } else if (status === 2) {
+        const dado = {
+            status: 3
+        }
+
+        //pegando o caminho do banco de dados
+        firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar).update(dado).then(function() {
+
+            //fechando modal
+            $("#modalAtualizar").modal("hide")
+            abrirModalAlerta("Pedido Alterado para Entrege!")
+                //console.log("Pedido Alterado para Entrege!")
+
+        }).catch(function(error) {
+            abrirModalAlerta("Error ao Finalizar Pedido" + error)
+                //console.log("Sucesso ao Finalizar Pedido erro" + error)
+        })
+    } else {
+        //fechando modal
+        $("#modalAtualizar").modal("hide")
+        abrirModalAlerta("Pedido Pronto para ser finalizado no sistema!")
+            //console.log("Pedido Pronto para ser finalizado no sistema!")
+    }
 }
 
 
