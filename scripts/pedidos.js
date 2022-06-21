@@ -173,23 +173,24 @@ function criarButtonTabela(linha, dados) {
     //inserindo botoes
     const buttondetalhePedido = document.createElement("button")
     buttondetalhePedido.innerHTML = `<span class="material-symbols-outlined">visibility</span>`
-    buttondetalhePedido.className = "btn btn-success btn-xs"
+    buttondetalhePedido.className = "btn btn-primary  btn-xs"
 
     const buttonDetalheCliente = document.createElement("button")
     buttonDetalheCliente.innerHTML = `<span class="material-symbols-outlined">info</span>`
-    buttonDetalheCliente.className = "btn btn-success btn-xs"
+    buttonDetalheCliente.className = "btn btn-warning btn-xs"
 
     const buttonIprimir = document.createElement("button")
     buttonIprimir.innerHTML = `<span class="material-symbols-outlined">print</span>`
-    buttonIprimir.className = "btn btn-success btn-xs"
+    buttonIprimir.className = "btn btn-secondary btn-xs"
 
     const buttonAtualizar = document.createElement("button")
     buttonAtualizar.innerHTML = `<span class="material-symbols-outlined">sync_alt</span>`
-    buttonAtualizar.className = "btn btn-success btn-xs"
+    buttonAtualizar.className = "btn btn-info btn-xs"
 
     const buttonFinalizar = document.createElement("button")
     buttonFinalizar.innerHTML = `<span class="material-symbols-outlined">task_alt</span>`
-    buttonFinalizar.className = "btn btn-success btn-xs"
+    buttonFinalizar.className = "btn  btn-success btn-xs"
+
 
     //evento do botão
     buttondetalhePedido.onclick = function() {

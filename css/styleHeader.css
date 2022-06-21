@@ -21,6 +21,7 @@
     --primary-color-light: #F6F5FF;
     --toggle-color: #DDD;
     --text-color: #707070;
+    --btn-color: #e3732d;
     /* ====== transições  ====== */
     --tran-03: all 0.2s ease;
     --tran-03: all 0.3s ease;
@@ -398,4 +399,8 @@ header .image-text .profession {
 
 body.dark .home .text {
     color: var(--text-color);
+}
+
+.btn-primary {
+    background-color: var(--btn-color);
 }
