@@ -65,12 +65,11 @@ db.where("status", "<=", 3).onSnapshot(function(documentos) {
             const doc = changes.doc
             const dados = doc.data()
 
-            pedidoSelecionadoFinalizar = changes.doc.id
+            //pedidoSelecionadoFinalizar = dados //changes.doc.id
             statusPedido = dados.status
 
-            keyLista.push(pedidoSelecionadoFinalizar)
+            keyLista.push(dados.IDpedido)
 
-            console.log(statusPedido);
 
             //recuperando o uid do pedido
             //console.log(pedidoSelecionadoFinalizar);
@@ -147,7 +146,7 @@ function criarItensTabela(dados) {
 function removeItensTabela(dados) {
 
     //pegando a posição do item
-    const index = keyLista.indexOf(pedidoSelecionadoFinalizar)
+    const index = keyLista.indexOf(dados.IDpedido)
 
     //removendo a linha da tabela
     tabela.rows[index].remove()
@@ -321,14 +320,14 @@ function clickImprimir(dados) {
 /*====================================================== 
         EVENTO DO BOTÃO DE FINALIZAR PEDIDO
 ====================================================== */
-function clickFinalizar() {
+function clickFinalizar(dados) {
     //CHAMANDO A MODAL  
     $("#modalFinalizar").modal("show")
         //console.log("clique para finalizar" + dados.status)
 
 
-    pedidoSelecionadoFinalizar
-    //console.log("clickFinalizar" + pedidoSelecionadoFinalizar)
+    pedidoSelecionadoFinalizar = dados
+        //console.log("clickFinalizar" + pedidoSelecionadoFinalizar)
 }
 
 
@@ -340,13 +339,14 @@ function clickFinalizar() {
 ====================================================== */
 function finalizarPedido() {
 
-    //console.log("finalizarPedido" + status)
+    //console.log("finalizarPedido  " + pedidoSelecionadoFinalizar.IDpedido)
     const dado = {
         status: 4
     }
 
+
     //pegando o caminho do banco de dados
-    firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar).update(dado).then(function() {
+    firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar.IDpedido).update(dado).then(function() {
 
         //ESCONDENDO A MODAL  
         $("#modalFinalizar").modal("hide")
@@ -364,14 +364,14 @@ function finalizarPedido() {
 /*====================================================== 
         EVENTO DO BOTÃO DE FINALIZAR PEDIDO
 ====================================================== */
-function clickAtualizar() {
+function clickAtualizar(dados) {
     //CHAMANDO A MODAL  
     $("#modalAtualizar").modal("show")
         //console.log("clique para finalizar" + dados.status)
 
 
-    pedidoSelecionadoFinalizar
-    //console.log("clickFinalizar" + pedidoSelecionadoFinalizar)
+    pedidoSelecionadoFinalizar = dados
+        //console.log("clickFinalizar" + pedidoSelecionadoFinalizar)
 }
 
 
@@ -379,55 +379,76 @@ function clickAtualizar() {
         EVENTO DO BOTÃO "SIM" FINALIZAR PEDIDO
 ====================================================== */
 function atualizarPedido() {
-
-    //vaiavel que recebera o obj do pedido
+    console.log(" inicio da função " + pedidoSelecionadoFinalizar.IDpedido)
+        //vaiavel que recebera o obj do pedido
     var status = statusPedido
         //console.log("finalizarPedido" + status)
-    if (status === 1) {
+    if (status <= 1) {
         const dado = {
             status: 2
         }
 
+        console.log("primeiro if status = 1  " + pedidoSelecionadoFinalizar.IDpedido)
+        console.log("valor do status " + status)
+
         //pegando o caminho do banco de dados
-        firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar).update(dado).then(function() {
+        firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar.IDpedido).update(dado).then(function() {
 
             //fechando modal
             $("#modalAtualizar").modal("hide")
             abrirModalAlerta("Pedido Alterado para Transporte!")
                 //console.log("Pedido Alterado para Transporte")
-
-
+            setTimeout(function() {
+                location.reload(1);
+            }, 2000);
         }).catch(function(error) {
             abrirModalAlerta("Error ao Finalizar Pedido" + error)
                 //console.log("Sucesso ao Finalizar Pedido erro" + error)
         })
 
-    } else if (status === 2) {
+    } else if (status == 2) {
         const dado = {
             status: 3
         }
 
+        console.log("segundo if status = 2  " + pedidoSelecionadoFinalizar.IDpedido)
+        console.log("valor do status " + status)
+
         //pegando o caminho do banco de dados
-        firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar).update(dado).then(function() {
+        firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar.IDpedido).update(dado).then(function() {
 
             //fechando modal
             $("#modalAtualizar").modal("hide")
             abrirModalAlerta("Pedido Alterado para Entrege!")
-                //console.log("Pedido Alterado para Entrege!")
+                //console.log("Pedido Alterado para Transporte")
+            setTimeout(function() { location.reload(1); }, 2000);
 
         }).catch(function(error) {
             abrirModalAlerta("Error ao Finalizar Pedido" + error)
                 //console.log("Sucesso ao Finalizar Pedido erro" + error)
         })
-    } else {
-        //fechando modal
+
+
+
+
+    } else if (status == 3) {
+
+        console.log("pronto para finalizar  if status =3  " + pedidoSelecionadoFinalizar.IDpedido)
+        console.log("valor do status " + status)
+            //fechando modal
         $("#modalAtualizar").modal("hide")
         abrirModalAlerta("Pedido Pronto para ser finalizado no sistema!")
             //console.log("Pedido Pronto para ser finalizado no sistema!")
+        setTimeout(function() { location.reload(1); }, 2000);
+
+    } else {
+        console.log("Falha ao alterar Status do Pedido" + pedidoSelecionadoFinalizar.IDpedido)
+            //fechando modal
+        $("#modalAtualizar").modal("hide")
+        abrirModalAlerta("Falha ao alterar Status do Pedido!")
+        setTimeout(function() { location.reload(1); }, 2000);
     }
 }
-
-
 
 /*========================================
         FUNCAO DO BOTAO DE NOTIFICA

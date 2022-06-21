@@ -94,7 +94,7 @@ body {
 /* =====configurando icone do cabecalio ===== */
 
 .sidebar .icon {
-    min-width: 50px;
+    min-width: 30px;
     border-radius: 6px;
     height: 100%;
     display: flex;
