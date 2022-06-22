@@ -380,8 +380,8 @@ function clickAtualizar(dados) {
         EVENTO DO BOTÃO "SIM" FINALIZAR PEDIDO
 ====================================================== */
 function atualizarPedido() {
-    console.log(" inicio da função " + pedidoSelecionadoFinalizar.IDpedido)
-        //vaiavel que recebera o obj do pedido
+    //console.log(" inicio da função " + pedidoSelecionadoFinalizar.IDpedido)
+    //vaiavel que recebera o obj do pedido
     var status = statusPedido
         //console.log("finalizarPedido" + status)
     if (status <= 1) {
@@ -389,8 +389,8 @@ function atualizarPedido() {
             status: 2
         }
 
-        console.log("primeiro if status = 1  " + pedidoSelecionadoFinalizar.IDpedido)
-        console.log("valor do status " + status)
+        //console.log("primeiro if status = 1  " + pedidoSelecionadoFinalizar.IDpedido)
+        //console.log("valor do status " + status)
 
         //pegando o caminho do banco de dados
         firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar.IDpedido).update(dado).then(function() {
@@ -412,8 +412,8 @@ function atualizarPedido() {
             status: 3
         }
 
-        console.log("segundo if status = 2  " + pedidoSelecionadoFinalizar.IDpedido)
-        console.log("valor do status " + status)
+        //console.log("segundo if status = 2  " + pedidoSelecionadoFinalizar.IDpedido)
+        // console.log("valor do status " + status)
 
         //pegando o caminho do banco de dados
         firebase.firestore().collection("pedidos").doc(pedidoSelecionadoFinalizar.IDpedido).update(dado).then(function() {
@@ -434,122 +434,23 @@ function atualizarPedido() {
 
     } else if (status == 3) {
 
-        console.log("pronto para finalizar  if status =3  " + pedidoSelecionadoFinalizar.IDpedido)
-        console.log("valor do status " + status)
-            //fechando modal
+        // console.log("pronto para finalizar  if status =3  " + pedidoSelecionadoFinalizar.IDpedido)
+        //console.log("valor do status " + status)
+        //fechando modal
         $("#modalAtualizar").modal("hide")
         abrirModalAlerta("Pedido Pronto para ser finalizado no sistema!")
             //console.log("Pedido Pronto para ser finalizado no sistema!")
         setTimeout(function() { location.reload(1); }, 2000);
 
     } else {
-        console.log("Falha ao alterar Status do Pedido" + pedidoSelecionadoFinalizar.IDpedido)
-            //fechando modal
+        //console.log("Falha ao alterar Status do Pedido" + pedidoSelecionadoFinalizar.IDpedido)
+        //fechando modal
         $("#modalAtualizar").modal("hide")
         abrirModalAlerta("Falha ao alterar Status do Pedido!")
         setTimeout(function() { location.reload(1); }, 2000);
     }
 }
 
-/*========================================
-        FUNCAO DO BOTAO DE NOTIFICA
- ========================================*/
-function validarCamposNOtific() {
-    //variaveis
-    const titulo = document.getElementById("clienteTituloNotific").value
-    const mensagem = document.getElementById("clienteMensagemNotific").value
-
-    //condicao para validar os campos 
-    if (titulo.trim() == "" || mensagem.trim() == "") {
-        //debugando..
-        // console.log("Os Campos devem Ser Preenchidos")
-        abrirModalAlerta("Preencha os campos Obrigatoriamente.")
-
-    } else {
-        //debugando..console.log(titulo)
-
-        obterNotificacao(titulo, mensagem, pedidoSelecionadoCliente.token_msg)
-    }
-}
-
-
-
-
-
-/*===================================================================
-        FUNCAO QUE OBTEM AS NOTIFICACOES NO BANCO
- ====================================================================*/
-function obterNotificacao(titulo, mensagem, token) {
-
-    //variavel que recebe os dados da base
-    firebase.firestore().collection("app").doc("notificacao").get().then(function(documento) {
-
-        const dados = documento.data()
-
-        const key = dados.key
-
-        abrirProgressBar()
-        post(titulo, mensagem, token, key)
-
-    }).catch(function(error) {
-        abrirModalAlerta("Erro ao Enviar Notificação" + error)
-            //debugando
-            //console.log()
-    })
-}
-
-
-
-
-
-/*========================================
-    FUNCAO QUE ENVIA O POST P BANCO
- ========================================*/
-function post(titulo, mensagem, topico, key) {
-
-    //variavel que receberar o biblioteca xml
-    const xmlHttpRequest = new XMLHttpRequest()
-        //url de conexao com api
-    const url = "https://fcm.googleapis.com/fcm/send"
-
-    //configurando o cabecalio do post da notificacao
-    xmlHttpRequest.open("POST", url, true)
-    xmlHttpRequest.setRequestHeader("Content-type", "application/json")
-    xmlHttpRequest.setRequestHeader("Authorization", key)
-
-
-
-    xmlHttpRequest.onreadystatechange = function() {
-        removerProgressBar()
-
-        //condicao para verificaxao do envio da mensagem
-        if (xmlHttpRequest.status == 200) {
-
-            limparCampos()
-            abrirModalAlerta("Sucesso ao enviar a Notificação - Alguns Clientes Poderão receber a mensagem em até 5 minutos")
-
-        } else {
-            abrirModalAlerta("Erro ao enviar Notificação")
-                //console.log("Erro ao enviar Notificação")
-        }
-    }
-
-    //criando corpo da notificaxao
-    const parametros = {
-        "to": topico,
-        "data": {
-            "titulo": titulo,
-            "mensagem": mensagem
-        }
-    }
-
-    const notificacao = JSON.stringify(parametros)
-
-    //associando dotos os paramentros do cabecalio e o corpo
-    xmlHttpRequest.send(notificacao)
-        //debugando
-        //console.log(notificacao)
-}
 
 
 /*===================================================
