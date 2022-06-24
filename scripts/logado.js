@@ -18,9 +18,10 @@ window.onload = function() {
 function deslogando() {
     //deslogando gando não for usuario admim
     firebase.auth().signOut().then(function() {
-
+        window.alert("Deseja Deslogar?");
+        console.log("Deseja Deslogar")
         window.location.href = "index.html"
-        alert("Usuario Deslogado")
+
 
     }).catch(function(error) {
 
